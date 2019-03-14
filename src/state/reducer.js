@@ -6,7 +6,7 @@ export const initialState = { messages: []}
 const reducer = (state, action) => {
   switch(action.type){
     case NEW_MESSAGE:
-      return {...state, messages: [...state.message, action.item]}
+      return {...state, messages: [...state.messages, action.item]}
 
     default: return state;
   }
