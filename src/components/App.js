@@ -1,17 +1,22 @@
 import React, { useReducer, useState } from 'react';
 import reducer, {initialState } from '../state/reducer';
-
+import Context from '../context';
+import PublishMessage from './PublishMessage';
+import MessageBoard from './MessageBoard';
 
 function App(){
-  const [state, dispatch ] = useReducer(reducer, initialState);
-
-
+  const [state, dispatch] = useReducer(reducer, initialState);
 
   console.log('state', state);
+
     return (
-      <div className="App">
-        <h2>slactHooks</h2>
-      </div>
+      <Context.Provider value={{ state, dispatch }}>
+        <h2>SlactHooks</h2>
+        <hr />
+        <PublishMessage />
+        <hr />
+        <MessageBoard />
+      </Context.Provider>
     );
 
 }

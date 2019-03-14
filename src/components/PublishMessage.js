@@ -1,18 +1,29 @@
-import React,  {useState } from 'react';
+import React, { useState } from 'react';
+import { useAppContext } from './hooks';
 import { newMessage } from '../state/actions';
 
 function PublishMessage() {
-  const [text, setText] = useState('');
+  const { dispatch } = useAppContext()
+  const [ text, setText ] = useState('');
 
   const updateText = event =>  {
     setText(event.target.value);
   }
+
+  const publishMessage = () => {
+    dispatch(newMessage(text));
+  }
+
+  const handleKeyPress = event => {
+    if(event.key === 'Enter') publishMessage();
+  }
+
   return (
     <div>
       <h3>Got somethign to say?</h3>
-      <input />
+      <input value={text} onChange={updateText} onKeyPress={handleKeyPress}/>
       { ' ' }
-      <button>Publish it!</button>
+      <button onClick={publishMessage}>Publish it!</button>
     </div>
   )
 }
