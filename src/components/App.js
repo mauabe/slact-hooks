@@ -1,16 +1,29 @@
-import React, { useReducer, useState } from 'react';
+import React, { useReducer, useEffect } from 'react';
 import reducer, {initialState } from '../state/reducer';
 import Context from '../context';
+import PubSub from '../pubsub';
 import PublishMessage from './PublishMessage';
 import MessageBoard from './MessageBoard';
+
+const pubsub = new PubSub();
 
 function App(){
   const [state, dispatch] = useReducer(reducer, initialState);
 
+  useEffect(() =>{
+    pubsub.addListener({
+      message: messageObject => {
+        const { channel, message } = messageObject;
+        console.log('message', message, 'channel', channel)
+        dispatch(message);
+      }
+    });
+  }, []);
+
   console.log('state', state);
 
     return (
-      <Context.Provider value={{ state, dispatch }}>
+      <Context.Provider value={{ state, dispatch, pubsub }}>
         <h2>SlactHooks</h2>
         <hr />
         <PublishMessage />
